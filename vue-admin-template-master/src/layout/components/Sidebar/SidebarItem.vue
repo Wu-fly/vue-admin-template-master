@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!item.hidden">
+  <div v-if="!item.hidden && hasPermission">
     <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
@@ -56,12 +56,29 @@ export default {
     this.onlyOneChild = null
     return {}
   },
+  computed: {
+    // Filter routes by role
+    hasPermission() {
+      const roles = this.$store.getters.roles
+      if (this.item.meta && this.item.meta.roles) {
+        return this.item.meta.roles.includes(roles)
+      }
+      return true
+    }
+  },
   methods: {
     hasOneShowingChild(children = [], parent) {
       const showingChildren = children.filter(item => {
         if (item.hidden) {
           return false
         } else {
+          // Check role permission for child
+          if (item.meta && item.meta.roles) {
+            const roles = this.$store.getters.roles
+            if (!item.meta.roles.includes(roles)) {
+              return false
+            }
+          }
           // Temp set(will be used if only has one showing child)
           this.onlyOneChild = item
           return true

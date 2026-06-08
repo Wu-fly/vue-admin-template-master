@@ -44,6 +44,12 @@ export const constantRoutes = [
   },
 
   {
+    path: '/401',
+    component: () => import('@/views/401'),
+    hidden: true
+  },
+
+  {
     path: '/',
     component: Layout,
     redirect: '/dashboard',
@@ -156,6 +162,20 @@ export const constantRoutes = [
       {
         path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
         meta: { title: 'External Link', icon: 'link' }
+      }
+    ]
+  },
+
+  {
+    path: '/intern',
+    component: Layout,
+    redirect: '/intern/hello',
+    children: [
+      {
+        path: 'hello',
+        name: 'InternHello',
+        component: () => import('@/views/intern/hello'),
+        meta: { title: 'Intern Hello', icon: 'user', roles: ['admin'] }
       }
     ]
   },

@@ -28,13 +28,37 @@ router.beforeEach(async(to, from, next) => {
     } else {
       const hasGetUserInfo = store.getters.name
       if (hasGetUserInfo) {
-        next()
+        // Determine whether the route requires permission
+        const roles = store.getters.roles
+        if (to.meta && to.meta.roles) {
+          // Check if the user has the required role
+          if (to.meta.roles.includes(roles)) {
+            next()
+          } else {
+            // No permission, redirect to 401 page
+            next('/401')
+            NProgress.done()
+          }
+        } else {
+          next()
+        }
       } else {
         try {
           // get user info
           await store.dispatch('user/getInfo')
 
-          next()
+          // After getting user info, check role permission again
+          const roles = store.getters.roles
+          if (to.meta && to.meta.roles) {
+            if (to.meta.roles.includes(roles)) {
+              next()
+            } else {
+              next('/401')
+              NProgress.done()
+            }
+          } else {
+            next()
+          }
         } catch (error) {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')
