@@ -180,6 +180,19 @@ export const constantRoutes = [
     ]
   },
 
+  {
+    path: '/counter',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Counter',
+        component: () => import('@/views/counter/index'),
+        meta: { title: 'Counter', icon: 'el-icon-s-data' }
+      }
+    ]
+  },
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
