@@ -113,8 +113,8 @@ export default {
     return {
       // 登录表单数据对象，包含用户名和密码
       loginForm: {
-        username: 'admin',  // 默认用户名
-        password: '111111'  // 默认密码
+        username: 'admin', // 默认用户名
+        password: '111111' // 默认密码
       },
       // 表单验证规则配置
       loginRules: {
@@ -123,9 +123,9 @@ export default {
         // 密码验证规则：必填，失焦触发，使用自定义验证器
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
-      loading: false,           // 登录请求加载状态标识
+      loading: false, // 登录请求加载状态标识
       passwordType: 'password', // 密码输入框类型（password/text）
-      redirect: undefined       // 登录成功后重定向路径，从URL参数获取
+      redirect: undefined // 登录成功后重定向路径，从URL参数获取
     }
   },
 
@@ -141,7 +141,7 @@ export default {
         // 从路由查询参数中提取 redirect 值，用于登录成功后重定向
         this.redirect = route.query && route.query.redirect
       },
-      immediate: true  // 组件初始化时立即执行一次
+      immediate: true // 组件初始化时立即执行一次
     }
   },
 
@@ -156,9 +156,9 @@ export default {
     showPwd() {
       // 判断当前密码类型并切换
       if (this.passwordType === 'password') {
-        this.passwordType = ''  // 切换为明文显示
+        this.passwordType = '' // 切换为明文显示
       } else {
-        this.passwordType = 'password'  // 切换为密文显示
+        this.passwordType = 'password' // 切换为密文显示
       }
       // 切换后重新聚焦到密码输入框，提升用户体验
       this.$nextTick(() => {
@@ -175,7 +175,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           // 表单验证通过，开始登录流程
-          this.loading = true  // 设置加载状态为true，显示加载动画
+          this.loading = true // 设置加载状态为true，显示加载动画
 
           // 调用 Vuex 的 user/login action 执行登录
           // loginForm 包含用户名和密码
@@ -183,7 +183,7 @@ export default {
             // 登录成功，跳转到目标页面
             // 如果有 redirect 参数则跳转到该路径，否则跳转到首页
             this.$router.push({ path: this.redirect || '/' })
-            this.loading = false  // 关闭加载状态
+            this.loading = false // 关闭加载状态
           }).catch(() => {
             // 登录失败，关闭加载状态
             this.loading = false

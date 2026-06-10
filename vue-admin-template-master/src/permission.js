@@ -30,9 +30,13 @@ router.beforeEach(async(to, from, next) => {
       if (hasGetUserInfo) {
         // Determine whether the route requires permission
         const roles = store.getters.roles
+        // 处理角色数组或字符串
+        const roleArray = Array.isArray(roles) ? roles : [roles]
+
         if (to.meta && to.meta.roles) {
           // Check if the user has the required role
-          if (to.meta.roles.includes(roles)) {
+          const hasPermission = to.meta.roles.some(role => roleArray.includes(role))
+          if (hasPermission) {
             next()
           } else {
             // No permission, redirect to 401 page
@@ -49,8 +53,11 @@ router.beforeEach(async(to, from, next) => {
 
           // After getting user info, check role permission again
           const roles = store.getters.roles
+          const roleArray = Array.isArray(roles) ? roles : [roles]
+
           if (to.meta && to.meta.roles) {
-            if (to.meta.roles.includes(roles)) {
+            const hasPermission = to.meta.roles.some(role => roleArray.includes(role))
+            if (hasPermission) {
               next()
             } else {
               next('/401')

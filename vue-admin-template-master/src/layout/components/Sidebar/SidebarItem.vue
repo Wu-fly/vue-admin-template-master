@@ -59,23 +59,29 @@ export default {
   computed: {
     // Filter routes by role
     hasPermission() {
-      const roles = this.$store.getters.roles
+      const userRoles = this.$store.getters.roles
+      // 如果用户角色不是数组，转为数组
+      const userRoleArray = Array.isArray(userRoles) ? userRoles : [userRoles]
+
       if (this.item.meta && this.item.meta.roles) {
-        return this.item.meta.roles.includes(roles)
+        // 检查是否有角色交集
+        return this.item.meta.roles.some(role => userRoleArray.includes(role))
       }
       return true
     }
   },
   methods: {
     hasOneShowingChild(children = [], parent) {
+      const userRoles = this.$store.getters.roles
+      const userRoleArray = Array.isArray(userRoles) ? userRoles : [userRoles]
+
       const showingChildren = children.filter(item => {
         if (item.hidden) {
           return false
         } else {
           // Check role permission for child
           if (item.meta && item.meta.roles) {
-            const roles = this.$store.getters.roles
-            if (!item.meta.roles.includes(roles)) {
+            if (!item.meta.roles.some(role => userRoleArray.includes(role))) {
               return false
             }
           }

@@ -10,7 +10,7 @@
           <span class="label">当前计数：</span>
           <span class="value">{{ count }}</span>
         </div>
-        
+
         <!-- 操作按钮 -->
         <div class="button-group">
           <el-button type="primary" @click="handleIncrement">+ 1</el-button>
@@ -18,12 +18,12 @@
           <el-button type="warning" @click="handleDecrement">- 1</el-button>
           <el-button type="danger" @click="handleDecrementByStep">- 5</el-button>
         </div>
-        
+
         <!-- 步长输入 -->
         <div class="step-input">
-          <el-input 
-            v-model.number="step" 
-            type="number" 
+          <el-input
+            v-model.number="step"
+            type="number"
             placeholder="自定义步长"
             style="width: 200px;"
           />
@@ -42,7 +42,7 @@ export default {
   name: 'CounterDemo',
   data() {
     return {
-      step: 10  // 自定义步长
+      step: 10 // 自定义步长
     }
   },
   computed: {
