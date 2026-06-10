@@ -193,6 +193,22 @@ export const constantRoutes = [
     ]
   },
 
+  {
+    path: '/book',
+    component: Layout,
+    redirect: '/book/list',
+    name: 'Book',
+    meta: { title: '图书管理', icon: 'el-icon-book' },
+    children: [
+      {
+        path: 'list',
+        name: 'BookList',
+        component: () => import('@/views/book/index'),
+        meta: { title: '图书列表', icon: 'el-icon-s-unfold' }
+      }
+    ]
+  },
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
